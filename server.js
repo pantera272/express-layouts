@@ -9,8 +9,23 @@ app.set('view engine', 'hbs');
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+app.use(express.urlencoded({ extended: false }));
+
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+app.post('/contact/send-message', (req, res) => {
+
+  const { author, sender, title, message, file_design} = req.body;
+
+  if(author && sender && title && message && file_design) {
+    res.render('contact', { isSent: true, fileName: file_design });
+  }
+  else {
+    res.render('contact', { isError: true });
+  }
+
 });
 
 app.get('/about', (req, res) => {
